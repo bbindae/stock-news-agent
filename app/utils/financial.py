@@ -1,6 +1,6 @@
 import yfinance as yf
 
-def get_company_name(ticker_symbol: str) -> str:
+def get_company_info(ticker_symbol: str) -> dict:
     """
     By given ticker_symbol, return the company name.
     If the company name is not found, return Ticker itself
@@ -10,13 +10,12 @@ def get_company_name(ticker_symbol: str) -> str:
         ticker = yf.Ticker(ticker_symbol.upper())
         info = ticker.info
 
-        company_name = info.get('longName') or info.get('shortName')
+        company_name = info.get('longName') or info.get('shortName') or ticker_symbol.upper()
+        sector = info.get('sector','')
+        industry = info.get('industry','')
 
-        if company_name:
-            return company_name
-        else:
-            return ticker_symbol.upper()
+        return {"company_name": company_name, "sector": sector, "industry": industry}     
     
     except Exception as e:
-        return ticker_symbol.upper()
+        return {"company_name": ticker_symbol.upper(), "sector":None, "industry": None}
     
