@@ -2,6 +2,7 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 from agent.state import StockNewsState, NewsItems
 from agent.utils import supabase
+from agent.utils import get_company_info
 
 def load_news(state: StockNewsState):
     """Load news from data base if news exist; fill the state"""   
@@ -28,6 +29,9 @@ def load_news(state: StockNewsState):
     
     if not result or not result.data:
         return state
+    
+
+    company_info = get_company_info(state.ticker)
 
     news_items = [
         NewsItems(
@@ -46,4 +50,7 @@ def load_news(state: StockNewsState):
         for idx, row in enumerate(result.data)
     ]
 
-    return {"news_items": news_items}
+    return {"company_name": company_info["company_name"], 
+                "industry": company_info["industry"],
+                "sector": company_info["sector"],
+                "news_items": news_items}
