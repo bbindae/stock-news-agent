@@ -1,4 +1,4 @@
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_core.documents import Document
@@ -6,7 +6,7 @@ from google import genai
 from langchain_ollama import ChatOllama
 
 
-load_dotenv(dotenv_path="../.env")
+#load_dotenv(dotenv_path="../.env")
 
 def get_llm():
     return ChatGoogleGenerativeAI(model="gemini-3.1-flash-lite-preview", temperature=0)
