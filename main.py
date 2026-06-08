@@ -68,6 +68,8 @@ class StockNews(BaseModel):
 
 class StockNewsList(BaseModel):
     ticker: str
+    industry: str
+    sector: str
     news_list: list[StockNews]
 
 @app.post("/api/v1/stock-news/news", response_model=StockNewsList)
@@ -80,6 +82,8 @@ async def get_stock_news(payload: Payload):
 
     response = StockNewsList(
         ticker=payload.ticker,
+        industry=result['industry'],
+        sector=result['sector'],
         news_list=[
             StockNews(
                 id=r.id,
@@ -100,7 +104,7 @@ async def get_stock_news(payload: Payload):
 
 
 if __name__ == "__main__":
-    print("🚀 [System] Launching LangServe API Server on http://localhost:8000")
+    print("🚀 [System] Launching LangServe API Server on http://localhost:8008")
     uvicorn.run(app, host="0.0.0.0", port=8008)
 
     

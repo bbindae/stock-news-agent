@@ -25,9 +25,9 @@ def render_stock_news(state: StockNewsState):
         md += f"**Sentiment**: {emoji} {item.sentiment_label} (score: {item.sentiment_score:.2f})  \n"
         md += f"**URL**: [{item.url}]({item.url})\n\n"
         md += f"### Summary\n{item.summary}\n\n"
-        md += f"### Summary in Korean\n{item.summary_kr}\n\n"        
+        md += f"### 요약\n{item.summary_kr}\n\n"        
         md += f"### content\n{item.content.replace('#',r'\#')}\n\n"
-        md += f"### content in Korean\n{item.content_kr.replace('#',r'\#')}\n\n"
+        md += f"### 내용\n{item.content_kr.replace('#',r'\#')}\n\n"
         md += "-------------------------------------------------------------\n\n"
     
     display(Markdown(md))
