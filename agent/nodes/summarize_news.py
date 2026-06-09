@@ -9,8 +9,8 @@ class NewAnalysis(BaseModel):
     id: int = Field(description="the article id")
     title: str = Field(description="A title of the article")
     content_kr: str = Field(description="A concise Korean translation of the 'Content' field")
-    summary: str = Field(description="A concise summary of the article in 2-3 sentences (English)")
-    summary_kr: str = Field(description="A concise Korean translation of the 'summary' generated above. It MUST be based entirely and exclusively on the actual facts provided in the 'Content' field. Do not invent any facts or mention that information is missing")    
+    summary: str = Field(description="A concise summary of the article in 4-5 sentences (English) based strictly on the 'Content' field")
+    summary_kr: str = Field(description="A concise Korean translation of the 'summary' generated above. It MUST be based entirely and exclusively on the actual facts provided in the 'Content' field. Do not invent any facts or mention that information is missing.")    
     sentiment_label: Literal["Positive", "Negative", "Neutral"] = Field(description="Sentiment analysis result - must of one of: 'Positive', 'Negative', 'Neutral'")
     sentiment_score: float = Field(description="Sentiment confidence score between -1.0 (most negative) and 1.0 (most positive)")
 
@@ -21,20 +21,15 @@ class NewsAnalysisList(BaseModel):
 
 def summarize_news(state: StockNewsState):
     """Summarize 3 news and add sentiment and embedding"""
-
-
-    # news_content = "\n\n".join([f"Article {n.id}: \nTitle: {n.title}\nContent: {n.raw_content}\nURL:{n.url}\nDate: {n.published_date}"
-    #                             for n in state.news_items
-    #                             ]).replace("\\"," ").replace("{","{{").replace("}","}}").replace('"','\"')
     
     processed_items = []
     for n in state.news_items:
         clean_content = str(n.raw_content).replace("\\", " ")
         clean_title = str(n.title).replace("\\", " ")
-        
+               
         item_text = (
             f"Article ID: {n.id}\n"
-            f"Title: {clean_title}\n"
+            f"Title: {clean_title}\n"            
             f"Content: {clean_content}\n"
             f"URL: {n.url}\n"
             f"Date: {n.published_date}"

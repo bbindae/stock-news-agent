@@ -5,6 +5,10 @@
 - [x] research supabase for data storage (https://claude.ai/share/9a03fadd-dd9a-4316-a4e3-403f95a46f0d)
 - [x] expose the graph via REST API
 - [x] add langsmith for tracing
+- [ ] Sort News by relavant score and published date
+- [ ] Add Check Latest feature to retrieve news from Tavily although today news are already existed in DB
+
+
 
 
 
