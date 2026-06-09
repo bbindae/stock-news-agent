@@ -1,0 +1,58 @@
+<svg width="1400" height="900" viewBox="0 0 1400 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="84" y1="48" x2="1316" y2="852" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8FAFC"/>
+      <stop offset="1" stop-color="#EEF6FF"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#0F172A" flood-opacity="0.14"/>
+    </filter>
+    <style>
+      .title { font: 700 30px 'Segoe UI', Arial, sans-serif; fill: #0F172A; }
+      .body { font: 400 16px 'Segoe UI', Arial, sans-serif; fill: #475569; }
+      .mono { font: 400 16px Consolas, 'Courier New', monospace; fill: #D6E2F5; }
+      .monoDark { font: 400 15px Consolas, 'Courier New', monospace; fill: #0F172A; }
+      .label { font: 700 14px 'Segoe UI', Arial, sans-serif; fill: #127475; letter-spacing: 0.08em; text-transform: uppercase; }
+    </style>
+  </defs>
+
+  <rect x="24" y="24" width="1352" height="852" rx="34" fill="url(#bg)"/>
+  <text x="100" y="102" class="title">Demo Screenshot Placeholder</text>
+  <text x="100" y="134" class="body">Replace this with a real product screenshot once you capture the running API, Swagger page, or terminal output.</text>
+
+  <rect x="92" y="182" width="1216" height="640" rx="28" fill="#FFFFFF" filter="url(#shadow)"/>
+
+  <rect x="92" y="182" width="1216" height="56" rx="28" fill="#EAF2FF"/>
+  <circle cx="128" cy="210" r="8" fill="#F87171"/>
+  <circle cx="154" cy="210" r="8" fill="#FBBF24"/>
+  <circle cx="180" cy="210" r="8" fill="#34D399"/>
+  <text x="218" y="216" class="body">http://localhost:8008/docs</text>
+
+  <text x="128" y="286" class="label">Suggested Screenshot Content</text>
+  <rect x="128" y="314" width="510" height="448" rx="22" fill="#F8FBFF" stroke="#D7E6FF" stroke-width="2"/>
+  <text x="156" y="356" class="title" style="font-size:24px;">FastAPI Swagger UI</text>
+  <text x="156" y="390" class="body">Capture the interactive request form and a successful response.</text>
+  <rect x="156" y="428" width="454" height="56" rx="14" fill="#127475"/>
+  <text x="184" y="463" style="font:700 18px 'Segoe UI', Arial, sans-serif; fill:#FFFFFF;">POST /api/v1/stock-news/news</text>
+  <rect x="156" y="514" width="454" height="214" rx="16" fill="#FFFFFF" stroke="#D7E6FF" stroke-width="2"/>
+  <text x="184" y="554" class="monoDark">{</text>
+  <text x="204" y="580" class="monoDark">  "ticker": "AAPL",</text>
+  <text x="204" y="606" class="monoDark">  "sector": "Technology",</text>
+  <text x="204" y="632" class="monoDark">  "industry": "Consumer Electronics",</text>
+  <text x="204" y="658" class="monoDark">  "news_list": [ ... ]</text>
+  <text x="184" y="692" class="monoDark">}</text>
+
+  <rect x="672" y="314" width="508" height="448" rx="22" fill="#0F172A"/>
+  <text x="700" y="356" class="title" style="font-size:24px; fill:#FFFFFF;">Terminal / Runtime View</text>
+  <text x="700" y="390" class="body" style="fill:#94A3B8;">Capture the application starting and handling a request.</text>
+  <text x="700" y="442" class="mono">PS D:\DevStudio\Repos\stock-news-agent&gt; uv run python main.py</text>
+  <text x="700" y="478" class="mono">[System] .env successfully loaded</text>
+  <text x="700" y="514" class="mono">INFO:     Uvicorn running on http://0.0.0.0:8008</text>
+  <text x="700" y="550" class="mono">INFO:     Application startup complete.</text>
+  <text x="700" y="604" class="mono">POST /api/v1/stock-news/news</text>
+  <text x="700" y="640" class="mono">ticker=AAPL</text>
+  <text x="700" y="676" class="mono">load_news -> search_news -> summarize_news -> save_to_db</text>
+  <text x="700" y="712" class="mono">200 OK</text>
+
+  <rect x="992" y="722" width="162" height="20" rx="10" fill="#1B9AAA" opacity="0.85"/>
+</svg>

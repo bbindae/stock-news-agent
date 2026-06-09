@@ -1,0 +1,96 @@
+<svg width="1400" height="860" viewBox="0 0 1400 860" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="96" y1="48" x2="1304" y2="812" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F7FAFC"/>
+      <stop offset="1" stop-color="#E7F6F2"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#F5FBF8"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#127475"/>
+      <stop offset="1" stop-color="#1B9AAA"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#0F172A" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#127475"/>
+    </marker>
+    <style>
+      .title { font: 700 34px 'Segoe UI', Arial, sans-serif; fill: #0F172A; }
+      .subtitle { font: 400 18px 'Segoe UI', Arial, sans-serif; fill: #334155; }
+      .section { font: 700 20px 'Segoe UI', Arial, sans-serif; fill: #0F172A; }
+      .nodeTitle { font: 700 20px 'Segoe UI', Arial, sans-serif; fill: #0F172A; }
+      .nodeBody { font: 400 16px 'Segoe UI', Arial, sans-serif; fill: #475569; }
+      .small { font: 600 14px 'Segoe UI', Arial, sans-serif; fill: #127475; letter-spacing: 0.08em; text-transform: uppercase; }
+      .label { font: 600 14px 'Segoe UI', Arial, sans-serif; fill: #0F172A; }
+    </style>
+  </defs>
+
+  <rect x="24" y="24" width="1352" height="812" rx="32" fill="url(#bg)"/>
+  <rect x="72" y="64" width="1256" height="116" rx="28" fill="#FFFFFF" filter="url(#shadow)"/>
+  <text x="112" y="114" class="title">Stock News Agent Architecture</text>
+  <text x="112" y="147" class="subtitle">FastAPI + LangServe request handling, LangGraph orchestration, external data providers, and Supabase persistence</text>
+
+  <rect x="92" y="230" width="1216" height="560" rx="30" fill="#F8FCFB" stroke="#D3E8E1" stroke-width="2"/>
+
+  <text x="132" y="278" class="small">Client and API</text>
+  <rect x="112" y="306" width="250" height="126" rx="24" fill="#FFFFFF" stroke="#CFE7E0" stroke-width="2" filter="url(#shadow)"/>
+  <text x="140" y="350" class="nodeTitle">Client Request</text>
+  <text x="140" y="380" class="nodeBody">POST /api/v1/stock-news/news</text>
+  <text x="140" y="404" class="nodeBody">payload: { ticker }</text>
+
+  <rect x="418" y="306" width="250" height="126" rx="24" fill="#FFFFFF" stroke="#CFE7E0" stroke-width="2" filter="url(#shadow)"/>
+  <text x="446" y="350" class="nodeTitle">FastAPI + LangServe</text>
+  <text x="446" y="380" class="nodeBody">main.py receives request</text>
+  <text x="446" y="404" class="nodeBody">and invokes compiled graph</text>
+
+  <text x="132" y="492" class="small">LangGraph Workflow</text>
+  <rect x="112" y="520" width="250" height="196" rx="24" fill="url(#panel)" stroke="#B9DDD4" stroke-width="2" filter="url(#shadow)"/>
+  <text x="140" y="564" class="nodeTitle">1. load_news</text>
+  <text x="140" y="595" class="nodeBody">Checks Supabase for same-day</text>
+  <text x="140" y="619" class="nodeBody">news already stored for ticker</text>
+  <text x="140" y="663" class="label">If found:</text>
+  <text x="140" y="688" class="nodeBody">return cached result</text>
+
+  <rect x="418" y="520" width="250" height="196" rx="24" fill="url(#panel)" stroke="#B9DDD4" stroke-width="2" filter="url(#shadow)"/>
+  <text x="446" y="564" class="nodeTitle">2. search_news</text>
+  <text x="446" y="595" class="nodeBody">Tavily finds recent articles</text>
+  <text x="446" y="619" class="nodeBody">yfinance enriches company info</text>
+  <text x="446" y="663" class="label">Output:</text>
+  <text x="446" y="688" class="nodeBody">normalized article list</text>
+
+  <rect x="724" y="520" width="250" height="196" rx="24" fill="url(#panel)" stroke="#B9DDD4" stroke-width="2" filter="url(#shadow)"/>
+  <text x="752" y="564" class="nodeTitle">3. summarize_news</text>
+  <text x="752" y="595" class="nodeBody">Ollama generates English and</text>
+  <text x="752" y="619" class="nodeBody">Korean summaries + sentiment</text>
+  <text x="752" y="663" class="label">Structured output:</text>
+  <text x="752" y="688" class="nodeBody">Pydantic article schema</text>
+
+  <rect x="1030" y="520" width="250" height="196" rx="24" fill="url(#panel)" stroke="#B9DDD4" stroke-width="2" filter="url(#shadow)"/>
+  <text x="1058" y="564" class="nodeTitle">4. save_to_db</text>
+  <text x="1058" y="595" class="nodeBody">Upserts ticker metadata and</text>
+  <text x="1058" y="619" class="nodeBody">stores analyzed news records</text>
+  <text x="1058" y="663" class="label">Persistence:</text>
+  <text x="1058" y="688" class="nodeBody">Supabase tables</text>
+
+  <text x="1016" y="278" class="small">External Services</text>
+  <rect x="996" y="306" width="292" height="126" rx="24" fill="#FFFFFF" stroke="#CFE7E0" stroke-width="2" filter="url(#shadow)"/>
+  <text x="1024" y="346" class="nodeTitle">Dependencies</text>
+  <text x="1024" y="377" class="nodeBody">Tavily for search</text>
+  <text x="1024" y="401" class="nodeBody">yfinance for company metadata</text>
+  <text x="1024" y="425" class="nodeBody">Ollama for local model inference</text>
+
+  <path d="M362 368 H418" stroke="#127475" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <path d="M543 432 V470 H237 V520" stroke="#127475" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+  <path d="M362 618 H418" stroke="#127475" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <path d="M668 618 H724" stroke="#127475" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <path d="M974 618 H1030" stroke="#127475" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow)"/>
+
+  <path d="M1142 432 V470 H543 V520" stroke="#127475" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8 10" marker-end="url(#arrow)" opacity="0.8"/>
+
+  <rect x="560" y="740" width="280" height="58" rx="18" fill="url(#accent)"/>
+  <text x="596" y="776" style="font:700 18px 'Segoe UI', Arial, sans-serif; fill:#FFFFFF;">Typed JSON response returned</text>
+</svg>
