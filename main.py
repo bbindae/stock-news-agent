@@ -18,12 +18,13 @@ ENV_PATH = BASE_DIR / ".env"
 
 if ENV_PATH.exists():
     load_dotenv(dotenv_path=ENV_PATH)
-    print("[System] .evn successfully loaded")
+    print("[System] .env successfully loaded")
 else:
-    print("[Warning] .env file not fould")
+    print("[Warning] .env file not found")
 
-
-from agent.stock_news_agent import create_stock_news_agent
+# .env must be loaded before agent modules create clients at import time.
+# Remove this noqa after the DI refactor (#TBD).
+from agent.stock_news_agent import create_stock_news_agent  #noqa: E402
 
 app = FastAPI(
     title="Stock News Agent API",
