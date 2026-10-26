@@ -1,11 +1,12 @@
 from datetime import datetime
 from zoneinfo import ZoneInfo
-from agent.state import StockNewsState, NewsItems
-from agent.utils import supabase
-from agent.utils import get_company_info
+
+from agent.state import NewsItems, StockNewsState
+from agent.utils import get_company_info, supabase
+
 
 def load_news(state: StockNewsState):
-    """Load news from data base if news exist; fill the state"""   
+    """Load news from data base if news exist; fill the state"""
 
     pacific = ZoneInfo("America/Los_Angeles")
 
@@ -22,14 +23,14 @@ def load_news(state: StockNewsState):
         .eq("tickers.symbol", state.ticker.upper())
         .eq("tickers.is_active", True)
         .gte("created_at", start_utc)
-        .lte("created_at", end_utc)        
+        .lte("created_at", end_utc)
         .order("published_at", desc=True)
         .execute()
     )
-    
+
     if not result or not result.data:
         return state
-    
+
 
     company_info = get_company_info(state.ticker)
 
@@ -50,7 +51,7 @@ def load_news(state: StockNewsState):
         for idx, row in enumerate(result.data)
     ]
 
-    return {"company_name": company_info["company_name"], 
+    return {"company_name": company_info["company_name"],
                 "industry": company_info["industry"],
                 "sector": company_info["sector"],
                 "news_items": news_items}

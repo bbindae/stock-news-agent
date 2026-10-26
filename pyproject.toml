@@ -1,7 +1,7 @@
 [project]
 name = "stock-news-agent"
 version = "0.1.0"
-description = "Add your description here"
+description = "LangGraph agent that fetches stock news and produces biligual (EN/KR) summaries with sentiment scoring."
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
@@ -28,5 +28,56 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "mypy>=2.4.0",
     "pyinstaller>=6.20.0",
+    "pytest>=9.1.1",
+    "ruff>=0.17.2",
+]
+
+#--- Ruff: linter ----------------------------------------------------------------------
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+extend-exclude = ["notebooks", "build", "dist"]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes: unused imports, undefined names
+    "I",    # isort: import ordering
+    "B",    # flake8-bugbear: likely bugs
+    "UP",   # pyupgrade: modern Python syntax
+]
+ignore = [
+    "E501", # line length: long prompt strings; revisit if we adopt `ruff format`
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["agent"]
+
+
+# ── mypy: type checker ───────────────────────────────────────
+[tool.mypy]
+python_version = "3.13"
+files = ["agent", "main.py", "tests"]
+plugins = ["pydantic.mypy"]
+check_untyped_defs = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+# Tighten toward `strict = true` after the DI refactor.
+
+# Third-party packages without type information.
+# Add a module here only when mypy reports it, with the reason.
+# [[tool.mypy.overrides]]
+# module = ["yfinance.*"]
+# ignore_missing_imports = true
+
+# ── pytest ───────────────────────────────────────────────────
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = ["-ra", "--strict-markers", "--strict-config"]
+markers = [
+    "integration: tests that call external services (not run in CI by default)",
 ]

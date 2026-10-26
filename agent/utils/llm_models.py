@@ -1,10 +1,8 @@
 #from dotenv import load_dotenv
-from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
-from langchain_core.documents import Document
 from google import genai
+from langchain_core.documents import Document
+from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
 from langchain_ollama import ChatOllama
-
 
 #load_dotenv(dotenv_path="../.env")
 
@@ -35,6 +33,6 @@ def get_exact_gemini_tokens(docs: list[Document], text: str,
             contents=pure_texts
         ).total_tokens
     else:
-        raise ValueError(f"either text or docs parameter must be provided")
+        raise ValueError("either text or docs parameter must be provided")
 
     return total_tokens

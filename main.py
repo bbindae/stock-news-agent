@@ -1,13 +1,13 @@
-from pydantic import BaseModel
+import sys
 from datetime import datetime
+from pathlib import Path
+
+import uvicorn
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from langserve import add_routes
-from dotenv import load_dotenv
-from pathlib import Path
-import uvicorn
-import sys
-
+from pydantic import BaseModel
 
 if getattr(sys, 'frozen', False):
     BASE_DIR = Path(sys.executable).resolve().parent
@@ -18,12 +18,13 @@ ENV_PATH = BASE_DIR / ".env"
 
 if ENV_PATH.exists():
     load_dotenv(dotenv_path=ENV_PATH)
-    print(f"[System] .evn successfully loaded")
+    print("[System] .env successfully loaded")
 else:
-    print(f"[Warning] .env file not fould")
+    print("[Warning] .env file not found")
 
-
-from agent.stock_news_agent import create_stock_news_agent
+# .env must be loaded before agent modules create clients at import time.
+# Remove this noqa after the DI refactor (#TBD).
+from agent.stock_news_agent import create_stock_news_agent  #noqa: E402
 
 app = FastAPI(
     title="Stock News Agent API",
@@ -96,15 +97,14 @@ async def get_stock_news(payload: Payload):
                 url=r.url,
                 sentiment_label=r.sentiment_label,
                 sentiment_score=r.sentiment_score
-            ) for r in result['news_items'] 
-        ]        
+            ) for r in result['news_items']
+        ]
     )
 
-    return response    
+    return response
 
 
 if __name__ == "__main__":
     print("🚀 [System] Launching LangServe API Server on http://localhost:8008")
     uvicorn.run(app, host="0.0.0.0", port=8008)
 
-    

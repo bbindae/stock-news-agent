@@ -1,4 +1,5 @@
 # Stock News Agent
+[![CI](https://github.com/bbindae/stock-news-agent/actions/workflows/ci.yml/badge.svg?branch=integration%2Fv1.0)](https://github.com/bbindae/stock-news-agent/actions/workflows/ci.yml)
 
 A production-style AI workflow that collects market news for a stock ticker, summarizes each article in English and Korean, scores sentiment, and persists the results to Supabase.
 
@@ -187,14 +188,60 @@ Suggested real screenshots to replace this placeholder later:
 - The current workflow focuses on a single ticker request at a time.
 - Secrets and deployment steps are not yet packaged for one-command onboarding.
 
-## Roadmap
+## Roadmap to v1.0
 
-- Add automated tests for nodes, API routes, and schema validation.
-- Add logging, tracing, and failure recovery for external dependencies.
-- Introduce deployment assets such as Docker and CI workflows.
-- Extend the agent into a larger multi-agent investment research system.
-- Add retrieval or vector search for historical news analysis.
+This project is being upgraded from a fixed news-summarization pipeline into a
+production-grade, evaluated, multi-agent system. Work is tracked through
+[issues](../../issues) and [milestones](../../milestones), and each phase ends
+with a pre-release tag (`v1.0.0-alpha.N`).
+
+**Branching:** active development happens on `integration/v1.0` (the current default
+branch). `main` holds the last stable release and receives v1.0 when all four
+phases are complete.
+
+### Phase 1 – Testability
+Make every component testable in isolation and add an automated quality gate.
+
+- [ ] Dev tooling (pytest, ruff, mypy), CI workflow, and license (#1)
+- [ ] Dependency injection via LangGraph runtime context; remove import-time side effects
+- [ ] Unit tests for pure functions and graph routing, using fakes for external services
+- [ ] Fix: prompt template breaks when article content contains `{`
+- [ ] Fix: API returns 500 when date, industry, or sector is missing
+- [ ] Fix: analysis merge trusts LLM-generated article ids
+- [ ] Cleanups: `zoneinfo` instead of `pytz`, log swallowed exceptions, remove duplicate calls
+
+### Phase 2 – Resilience & Packaging
+Keep the pipeline running when individual articles, models, or services fail.
+
+- [ ] Replace LangServe (with an architecture decision record)
+- [ ] Per-article fan-out with failure isolation (LangGraph `Send`)
+- [ ] Timeouts, retries with backoff, and model fallback behind a provider abstraction
+- [ ] Idempotent saves with URL-based deduplication
+- [ ] Resumable runs with a Postgres checkpointer
+- [ ] Docker and docker-compose (app, Ollama, Postgres)
+- [ ] Structured logging
+
+### Phase 3 – Evals & Observability
+Measure quality instead of assuming it, and make every run traceable.
+
+- [ ] Golden dataset: ~100 articles with human sentiment labels and Korean references
+- [ ] Evaluation harness: sentiment accuracy, summary faithfulness, translation quality,
+      schema validity, latency, and cost
+- [ ] Model comparison report (local open-weight vs. hosted models)
+- [ ] Tracing for every node: latency and token usage
+- [ ] CI regression gate: fail the build when eval scores drop below baseline
+- [ ] Prompt-injection guardrails and tests (fetched articles are untrusted input)
+
+### Phase 4 – Agentic Evolution
+Move from a fixed workflow to agents that decide what to research next.
+
+- [ ] MCP servers for news search and market data, decoupled from agent logic
+- [ ] Multi-agent analysis: news, fundamentals, and risk analysts coordinated by a supervisor
+- [ ] Historical retrieval with pgvector: "what happened after similar news?"
+- [ ] Human-in-the-loop review before reports are published
+- [ ] Watchlist batch processing through a queue
+- [ ] v1.0 release: design document, updated screenshots, merge to `main`
 
 ## License
 
-No license file is currently included in this repository.
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
