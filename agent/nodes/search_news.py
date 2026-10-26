@@ -1,5 +1,6 @@
-from agent.state import StockNewsState, NewsItems
+from agent.state import NewsItems, StockNewsState
 from agent.utils import get_company_info, search_stock_news
+
 
 def search_news(state: StockNewsState):
     """Search Top 3 news by stock symbo e.g. SNDK"""
@@ -19,9 +20,9 @@ def search_news(state: StockNewsState):
             url=n.url,
             sentiment_label='',
             sentiment_score=0.0
-            ) for idx, n in enumerate(stock_news)]                  
-    
-    return {"company_name": company_info['company_name'], 
-            "sector": company_info['sector'], 
-            "industry": company_info['industry'], 
+            ) for idx, n in enumerate(stock_news)]
+
+    return {"company_name": company_info['company_name'],
+            "sector": company_info['sector'],
+            "industry": company_info['industry'],
             "news_items":news_items}

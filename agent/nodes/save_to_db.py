@@ -1,17 +1,18 @@
 import logging
-from agent.utils import supabase
+
 from agent.state import StockNewsState
+from agent.utils import supabase
 
 logger = logging.getLogger(__name__)
 
 def save_to_db(state: StockNewsState):
     """
     persists ticker info and news items to Supabase.
-    
+
     Steps:
         1. Upsert ticker into `tickers` (insert if not exists, skip if already there).
         2. Insert each NewsItem into `stock_news`.
-    
+
     Returns:
         Unchanged state (pass-through node).
     """
@@ -35,7 +36,7 @@ def save_to_db(state: StockNewsState):
                 "symbol":   symbol,
                 "company_name": state.company_name,
                 "sector":   state.sector,
-                "industry": state.industry    
+                "industry": state.industry
             })
             .select("id")
             .execute()
@@ -55,7 +56,7 @@ def save_to_db(state: StockNewsState):
             changes["sector"] = state.sector
         if state.industry != existing.data["industry"]:
             changes["industry"] = state.industry
-        
+
         if changes:
             supabase.table("tickers").update(changes).eq("id", ticker_id).execute()
             logger.info(f"Updated ticker '{symbol}' -> {changes}")
@@ -64,7 +65,7 @@ def save_to_db(state: StockNewsState):
     # Insert News
     if not state.news_items:
         return state
-    
+
     rows = []
     for item in state.news_items:
         rows.append({
@@ -80,10 +81,10 @@ def save_to_db(state: StockNewsState):
             "sentiment":    item.sentiment_label.lower(),
             "sentiment_score": item.sentiment_score
         })
-    
+
     if not rows:
         return state
-    
+
     news_result = (
         supabase.table("stock_news")
         .insert(rows)
@@ -92,5 +93,5 @@ def save_to_db(state: StockNewsState):
     )
 
     logger.info(f"Inserted {len(news_result.data)} news item(s) for ticker '{state.ticker}'")
-    
+
     return state

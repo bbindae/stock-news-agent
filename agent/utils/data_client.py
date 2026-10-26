@@ -1,6 +1,7 @@
 import os
+
 from dotenv import load_dotenv
-from supabase import create_client, Client
+from supabase import Client, create_client
 
 load_dotenv(dotenv_path="../.env")
 
@@ -10,7 +11,7 @@ def get_supabase_client() -> Client:
 
     if not url or not key:
         raise ValueError("SUPABASE_URL and SUPABASE_KEY must be set in .env")
-    
+
     return create_client(url, key)
 
 supabase: Client = get_supabase_client()
