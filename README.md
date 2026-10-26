@@ -1,4 +1,5 @@
 # Stock News Agent
+[![CI](https://github.com/bbindae/stock-news-agent/actions/workflows/ci.yml/badge.svg?branch=integration%2Fv1.0)](https://github.com/bbindae/stock-news-agent/actions/workflows/ci.yml)
 
 A production-style AI workflow that collects market news for a stock ticker, summarizes each article in English and Korean, scores sentiment, and persists the results to Supabase.
 
